@@ -1,7 +1,7 @@
 input <- readLines("Day1Input.txt")
 part <- 2 #Specify 1 or 2
 words <- c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
-nums <- c("o1e", "t2o", "t3e", "f4r", "f5e", "s6x", "s7n", "e8t", "n9e")
+nums <- c("o1e", "t2o", "t3e", "4", "5e", "6", "7n", "e8t", "n9e")
 
 if (part == 2) {
   for (i in 1:9){
@@ -10,7 +10,7 @@ if (part == 2) {
 }
 
 input <- strsplit(input, "")
-input <- lapply(input, as.numeric)
+input <- suppressWarnings(lapply(input, as.numeric))
 
 na_remove <- function(l) {
   l <- l[!is.na(l)]
