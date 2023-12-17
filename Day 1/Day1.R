@@ -1,4 +1,4 @@
-input <- readLines("Day1Input.txt")
+input <- readLines("input.txt")
 part <- 2 #Specify 1 or 2
 words <- c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
 nums <- c("o1e", "t2o", "t3e", "4", "5e", "6", "7n", "e8t", "n9e")
