@@ -20,7 +20,6 @@ r_needed <- unlist(lapply(r, max))
 b_needed <- unlist(lapply(b, max))
 g_needed <- unlist(lapply(g, max))
 
-
 val <- sum(setdiff(seq_along(input), c(r_check, g_check, b_check)))
 print(val)
 print(sum(r_needed * b_needed * g_needed))
