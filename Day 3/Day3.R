@@ -3,6 +3,7 @@ input <- readLines("input.txt")
 
 len <- length(strsplit(input[1], split = "")[[1]])
 input <- matrix(unlist(strsplit(input, split = "")), ncol = len, byrow = TRUE)
+inputpt2 <- input
 
 num_inds <- which(input %in% as.character(0:9))
 non_period_inds <- which(input != ".")
@@ -64,3 +65,27 @@ for (i in seq_along(sym_inds)) {
     }
   }
 }
+print(sum(all_nums))
+
+# Part 2
+all_nums <- NULL
+for (i in seq_along(sym_inds)) {
+  if (inputpt2[sym_inds[i]] == "*") {
+    local_nums <- NULL
+    adjacent_inds <- adjacent(sym_inds[i], dim(inputpt2))
+    for (j in seq_along(adjacent_inds)) {
+      current_ind <- adjacent_inds[[j]]
+      xrange <- number_finder(matrix(current_ind, ncol = 2), inputpt2)
+      if (!identical(xrange, 0)) {
+        xseq <- xrange[1]:xrange[2]
+        num <- as.numeric(paste(inputpt2[current_ind[1], xseq], collapse = ""))
+        inputpt2[current_ind[1], xseq] <- rep(".", length(xseq))
+        local_nums <- c(local_nums, num)
+      }
+    }
+    if (length(local_nums) == 2) {
+      all_nums <- c(all_nums, prod(local_nums))
+    }
+  }
+}
+print(sum(all_nums))
