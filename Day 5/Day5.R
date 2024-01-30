@@ -1,6 +1,17 @@
-input <- readLines("sample.txt")
+# Add an extra blank line to end of input file
+input <- readLines("input.txt")
 
-seedsoil <- read.table(text = input[4:5])
+seeds <- read.table(text = strsplit(input[1], ":")[[1]][2])
+num_seeds <- length(seeds)
+
+start_inds <- which(grepl("map", input)) + 1
+stop_inds <- which(input == "")[-1] - 1
+num_maps <- length(start_inds)
+
+map_maker <- function(start, stop) {
+  map <- read.table(text = input[start:stop])
+  return(map)
+}
 
 mapper <- function(map, num) {
   starts <- map[1]
@@ -15,3 +26,15 @@ mapper <- function(map, num) {
   }
   return(output)
 }
+
+locations <- NULL
+for (i in 1:num_seeds) {
+  val <- as.numeric(seeds[i])
+  for (j in 1:num_maps) {
+    map <- map_maker(start_inds[j], stop_inds[j])
+    val <- mapper(map, val)
+  }
+  locations <- c(locations, val)
+}
+
+print(min(locations))
