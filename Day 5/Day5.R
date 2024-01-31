@@ -39,15 +39,19 @@ for (i in 1:num_seeds) {
 
 print(location)
 
+maps <- NULL
+for (i in seq_along(start_inds)) {
+  maps <- rbind(maps, map_maker(start_inds[i], stop_inds[i]))
+  endpoints <- unique(as.numeric(t(cbind(maps[2],maps[2] + maps[3] - 1))))
+}
+
 # Part 2
 location <- NULL
 for (i in 1:num_seeds) {
-  print(i)
   if (i %% 2 == 1) {
     low <- as.numeric(seeds[i])
     high <- as.numeric(seeds[i] + seeds[i + 1] - 1)
     for (j in low:high) {
-      print(j)
       val <- j
       for (k in 1:num_maps) {
         map <- map_maker(start_inds[k], stop_inds[k])
@@ -57,5 +61,6 @@ for (i in 1:num_seeds) {
     }
   }
 }
+
 
 print(location)
