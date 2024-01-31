@@ -27,14 +27,35 @@ mapper <- function(map, num) {
   return(output)
 }
 
-locations <- NULL
+location <- NULL
 for (i in 1:num_seeds) {
   val <- as.numeric(seeds[i])
   for (j in 1:num_maps) {
     map <- map_maker(start_inds[j], stop_inds[j])
     val <- mapper(map, val)
   }
-  locations <- c(locations, val)
+  location <- min(location, val)
 }
 
-print(min(locations))
+print(location)
+
+# Part 2
+location <- NULL
+for (i in 1:num_seeds) {
+  print(i)
+  if (i %% 2 == 1) {
+    low <- as.numeric(seeds[i])
+    high <- as.numeric(seeds[i] + seeds[i + 1] - 1)
+    for (j in low:high) {
+      print(j)
+      val <- j
+      for (k in 1:num_maps) {
+        map <- map_maker(start_inds[k], stop_inds[k])
+        val <- mapper(map, val)
+      }
+      location <- min(location, val)
+    }
+  }
+}
+
+print(location)
