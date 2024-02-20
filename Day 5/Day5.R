@@ -32,6 +32,7 @@ mapper <- function(map, num) {
   return(output)
 }
 
+
 location <- NULL
 for (i in 1:num_seeds) {
   val <- as.numeric(seeds[i])
@@ -51,16 +52,13 @@ for (i in rev(1:num_maps)) {
   ends <- cbind(map[1], map[1] + map[3] - 1)
   ends <- cbind(ends[1] - 1, ends, ends[2] + 1)
   ends <- unique(as.numeric(unlist(ends)))
-  ends <- ends[order(ends)]
+  endpoints <- unique(c(ends, endpoints))
   if (i > 1) {
     new_map <- map_maker_backward(start_inds[i - 1], stop_inds[i - 1])
-    for (j in seq_along(ends)) {
-      value <- mapper(new_map, ends[j])
+    for (j in seq_along(endpoints)) {
+      value <- mapper(new_map, endpoints[j])
       endpoints <- c(endpoints, value)
     }
-    endpoints <- unique(endpoints)
-  } else {
-    endpoints <- unique(c(endpoints, ends))
   }
 }
 
