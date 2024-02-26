@@ -1,6 +1,7 @@
-input <- read.table("sample.txt", col.names = c("hand", "bid"))
+input <- read.table("input.txt", col.names = c("hand", "bid"))
 hands <- strsplit(input$hand, split = "")
-bids <- input$hand
+bids <- input$bid
+N <- length(bids)
 
 ranking <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A")
 
@@ -48,3 +49,15 @@ compare <- function(c1, c2) {
     }
   }
 }
+
+for (i in seq_len(N)) {
+  for (j in seq_len(N - 1)) {
+    if (compare(hands[[j + 1]], hands[[j]])) {
+      hands[c(j, j + 1)] <- hands[c(j + 1, j)]
+      bids[c(j, j + 1)] <- bids[c(j + 1, j)]
+    }
+  }
+}
+
+winnings <- bids %*% 1:N
+print(winnings)
