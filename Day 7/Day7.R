@@ -3,7 +3,7 @@ hands <- strsplit(input$hand, split = "")
 bids <- input$bid
 N <- length(bids)
 
-ranking <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
+ranking <- c("2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
 
 cardtype <- function(hand) {
   cards <- table(hand)
