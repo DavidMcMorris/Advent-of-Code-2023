@@ -33,17 +33,17 @@ cardtype <- function(hand) {
 compare <- function(c1, c2) {
   c1type <- cardtype(c1)
   c2type <- cardtype(c2)
-  if (c2type > c1type) {
+  if (c1type > c2type) {
     return(TRUE)
-  } else if (c2type < c1type) {
+  } else if (c1type < c2type) {
     return(FALSE)
-  } else if (c2type == c2type) {
+  } else {
     for (i in 1:5) {
       c1rank <- which(ranking == c1[i])
       c2rank <- which(ranking == c2[i])
-      if (c2rank > c1rank) {
+      if (c1rank > c2rank) {
         return(TRUE)
-      } else if (c2rank < c1rank) {
+      } else if (c1rank < c2rank) {
         return(FALSE)
       }
     }
@@ -52,7 +52,7 @@ compare <- function(c1, c2) {
 
 for (i in seq_len(N)) {
   for (j in seq_len(N - 1)) {
-    if (compare(hands[[j + 1]], hands[[j]])) {
+    if (compare(hands[[j]], hands[[j + 1]])) {
       hands[c(j, j + 1)] <- hands[c(j + 1, j)]
       bids[c(j, j + 1)] <- bids[c(j + 1, j)]
     }
