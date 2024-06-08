@@ -1,4 +1,4 @@
-input <- read.table("input.txt", col.names = c("hand", "bid"))
+input <- read.table("sample.txt", col.names = c("hand", "bid"))
 hands <- strsplit(input$hand, split = "")
 bids <- input$bid
 hands_og <- hands
@@ -9,10 +9,21 @@ ranking <- c("J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A")
 cardtype <- function(hand) {
   cards <- table(hand)
   numcards <- length(cards)
-    if ("J" %in% hand) {
-    numjacks <- cards[["J"]]
-  }
-  if (numcards == 5) {
+  if ("J" %in% hand) {
+    if (numcards == 5) {
+      type <- 2
+    } else if (numcards == 4) {
+      type <- 4
+    } else if (numcards == 3) {
+      if (cards[["J"]] == 1 &&  !(3 %in% cards)) {
+        type <- 5
+      } else {
+        type <- 6
+      }
+    } else {
+      type <- 7
+    }
+  } else if (numcards == 5) {
     type <- 1
   } else if (numcards == 4) {
     type <- 2
