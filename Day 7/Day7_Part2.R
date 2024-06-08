@@ -108,6 +108,6 @@ merge_sort <- function(m) {
 
 
 hands <- merge_sort(hands)
-bids <- bids[match(hands_og, hands)]
+bids <- bids[match(hands, hands_og)]
 winnings <- bids %*% 1:n
 print(winnings)
