@@ -1,8 +1,7 @@
-input <- read.table("sample.txt", col.names = c("hand", "bid"))
+input <- read.table("input.txt", col.names = c("hand", "bid"))
 hands <- strsplit(input$hand, split = "")
 bids <- input$bid
 hands_og <- hands
-bids_og <- bids
 n <- length(bids)
 
 ranking <- c("2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
@@ -36,30 +35,61 @@ compare <- function(c1, c2) {
   c1type <- cardtype(c1)
   c2type <- cardtype(c2)
   if (c1type > c2type) {
-    return(TRUE)
-  } else if (c1type < c2type) {
     return(FALSE)
+  } else if (c1type < c2type) {
+    return(TRUE)
   } else {
     for (i in 1:5) {
       c1rank <- which(ranking == c1[i])
       c2rank <- which(ranking == c2[i])
       if (c1rank > c2rank) {
-        return(TRUE)
-      } else if (c1rank < c2rank) {
         return(FALSE)
+      } else if (c1rank < c2rank) {
+        return(TRUE)
       }
     }
   }
 }
 
-for (i in seq_len(n)) {
-  for (j in seq_len(n - 1)) {
-    if (compare(hands[[j]], hands[[j + 1]])) {
-      hands[c(j, j + 1)] <- hands[c(j + 1, j)]
+# Merge sort functions
+
+merge_lists <- function(left, right) {
+  result <- list()
+  while (length(left) * length(right) > 0) {
+    if (compare(left[[1]], right[[1]])) {
+      result <- c(result, left[1])
+      left <- left[!(left %in% result)]
+    } else {
+      result <- c(result, right[1])
+      right <- right[!(right %in% result)]
     }
+  }
+  if (length(left) > 0) {
+    result <- c(result, left)
+  }
+  if (length(right) > 0) {
+    result <- c(result, right)
+  }
+  return(result)
+}
+
+merge_sort <- function(m) {
+  len <- length(m)
+  if (length(m) <= 1) {
+    return(m)
+  } else {
+    split_ind <- floor(len / 2)
+    left <- m[1:split_ind]
+    right <- m[(split_ind + 1) : len]
+
+    left <- merge_sort(left)
+    right <- merge_sort(right)
+
+    return(merge_lists(left, right))
   }
 }
 
-bids <- bids[match(hands2, hands)]
+hands <- merge_sort(hands)
+bids <- bids[match(hands_og, hands)]
 winnings <- bids %*% 1:n
 print(winnings)
