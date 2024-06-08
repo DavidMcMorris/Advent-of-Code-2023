@@ -1,4 +1,4 @@
-input <- read.table("sample.txt", col.names = c("hand", "bid"))
+input <- read.table("input.txt", col.names = c("hand", "bid"))
 hands <- strsplit(input$hand, split = "")
 bids <- input$bid
 hands_og <- hands
@@ -23,24 +23,27 @@ cardtype <- function(hand) {
     } else {
       type <- 7
     }
-  } else if (numcards == 5) {
-    type <- 1
-  } else if (numcards == 4) {
-    type <- 2
-  } else if (numcards == 3) {
-    if (2 %in% cards) {
-      type <- 3
+  }
+  if (!("J" %in% hand)) {
+    if (numcards == 5) {
+      type <- 1
+    } else if (numcards == 4) {
+      type <- 2
+    } else if (numcards == 3) {
+      if (2 %in% cards) {
+        type <- 3
+      } else {
+        type <- 4
+      }
+    } else if (numcards == 2) {
+      if (2 %in% cards) {
+        type <- 5
+      } else {
+        type <- 6
+      }
     } else {
-      type <- 4
+      type <- 7
     }
-  } else if (numcards == 2) {
-    if (2 %in% cards) {
-      type <- 5
-    } else {
-      type <- 6
-    }
-  } else {
-    type <- 7
   }
   return(type)
 }
@@ -102,6 +105,7 @@ merge_sort <- function(m) {
     return(merge_lists(left, right))
   }
 }
+
 
 hands <- merge_sort(hands)
 bids <- bids[match(hands_og, hands)]
