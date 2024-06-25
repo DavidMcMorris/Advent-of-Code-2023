@@ -30,7 +30,7 @@ while (current != "ZZZ") {
 }
 
 # Part 2
-ghost_inds <- grep("*A", nodes[, 1])
+ghost_inds <- grep("A$", nodes[, 1])
 num_paths <- length(ghost_inds)
 ghost_mat <- data.frame("current" = nodes[ghost_inds, 1])
 
@@ -43,7 +43,7 @@ while (flag == 0) {
   for (k in 1:num_paths) {
     row <- which(nodes[, 1] == ghost_mat$current[k])
     ghost_mat$current[k] <- nodes[row, inst[j]]
-    flag2 <- sum(grepl("*Z", ghost_mat$current[k])) * flag2
+    flag2 <- sum(grepl("Z$", ghost_mat$current[k])) * flag2
   }
   flag <- flag2
 }
