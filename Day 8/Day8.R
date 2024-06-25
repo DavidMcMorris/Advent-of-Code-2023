@@ -1,3 +1,4 @@
+require(numbers)
 input <- "input.txt"
 inst <- readLines(input, 1)
 inst <- strsplit(inst, split = "")[[1]]
@@ -28,23 +29,24 @@ while (current != "ZZZ") {
   row <- which(nodes[, 1] == current)
   current <- nodes[row, inst[j]]
 }
+print(i)
 
 # Part 2
 ghost_inds <- grep("A$", nodes[, 1])
 num_paths <- length(ghost_inds)
-ghost_mat <- data.frame("current" = nodes[ghost_inds, 1])
 
-flag <- 0
-i <- 0
-while (flag == 0) {
-  i <- i + 1
-  j <- (i - 1) %% len + 1
-  flag2 <- 1
-  for (k in 1:num_paths) {
-    row <- which(nodes[, 1] == ghost_mat$current[k])
-    ghost_mat$current[k] <- nodes[row, inst[j]]
-    flag2 <- sum(grepl("Z$", ghost_mat$current[k])) * flag2
+# Fast route (assume cycles, find lcm)
+cycle_length <- 1
+for (k in seq_len(num_paths)) {
+  i <- 0
+  current <- nodes[ghost_inds[k], 1]
+  while (!grepl("Z$", current)) {
+    i <- i + 1
+    j <- (i - 1) %% len + 1
+    row <- which(nodes[, 1] == current)
+    current <- nodes[row, inst[j]]
   }
-  flag <- flag2
+  cycle_length <- c(cycle_length, i)
 }
-print(i)
+options("scipen" = 14)
+print(mLCM(cycle_length))
