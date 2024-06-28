@@ -45,7 +45,7 @@ adj_inds <- adjacent(pipes[current], current_ai)
 adj_inds <- subset(adj_inds, X1 > 0 & X1 <= dims[1] & X2 > 0 & X2 <= dims[2])
 connected_verts <- (adj_inds[, 2] - 1) * (dims[1]) + adj_inds[, 1]
 
-while (length(connected_verts > 0)) {
+while (min(distance[which(unvisited == 1)]) < Inf) {
   current_ai <- arrayInd(current, dims)
   adj_inds <- adjacent(pipes[current], current_ai)
   adj_inds <- subset(adj_inds, X1 > 0 & X1 <= dims[1] & X2 > 0 & X2 <= dims[2])
@@ -55,6 +55,8 @@ while (length(connected_verts > 0)) {
     distance[j] <- min(distance[j], distance[current] + 1)
   }
   unvisited[current] <- 0
-  current <- which(distance == min(distance[which(unvisited == 1)]) 
+  current <- which(distance == min(distance[which(unvisited == 1)])
                    & unvisited == 1)[1]
 }
+
+print(max(distance[which(distance < Inf)]))
