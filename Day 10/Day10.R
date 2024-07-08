@@ -72,10 +72,8 @@ inside <- function(x, y) {
       c <- sum(x[which(y[1:i] < Inf)] == "F")
       d <- sum(x[which(y[1:i] < Inf)] == "L")
       e <- sum(x[which(y[1:i] < Inf)] == "J")
-      match <- min(b + c, d + e)
-      unmatch <- max(b + c, d + e) - match
-      s <- a + match - unmatch
-      s <- abs(s) %% 2
+      s <- a + max(b + c, d + e)
+      s <- s %% 2
       sums[i] <- s
     }
   }
