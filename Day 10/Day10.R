@@ -1,10 +1,10 @@
-input <- "input.txt"
+input <- "sample.txt"
 pipes <- readLines(input)
 pipes <- lapply(pipes, strsplit, split = "")
 pipes <- matrix(unlist(pipes), nrow = length(pipes), byrow = TRUE)
 
 s <- which(pipes == "S")
-pipes[s] <- "|"
+pipes[s] <- "7"
 
 adjacent <- function(char, current_ai) {
   if (char == "|") {
@@ -60,3 +60,38 @@ while (min(distance[which(unvisited == 1)]) < Inf) {
 }
 
 print(max(distance[which(distance < Inf)]))
+
+inside <- function(x, y) {
+  sums <- NULL
+  for (i in seq_along(x)) {
+    if (y[i] >= Inf) {
+      sums[i] <- NaN
+    } else {
+      a <- sum(x[which(y[1:i] < Inf)] == "|") 
+      b <- sum(x[which(y[1:i] < Inf)] == "7")
+      c <- sum(x[which(y[1:i] < Inf)] == "F")
+      d <- sum(x[which(y[1:i] < Inf)] == "L")
+      e <- sum(x[which(y[1:i] < Inf)] == "J")
+      match <- min(b + c, d + e)
+      unmatch <- max(b + c, d + e) - match
+      s <- a + match - unmatch
+      s <- abs(s) %% 2
+      sums[i] <- s
+    }
+  }
+  rbind(sums, x)
+
+  value <- 0
+  total <- 0
+  for (i in 1:(length(x) - 1)) {
+    if (!is.na(sums[i + 1])) {
+      value <- sums[i + 1]
+    } else {
+      total <- total + value
+    }
+  }
+  return(total)
+}
+
+tot <- mapply(inside, split(pipes, row(pipes)), split(distance, row(distance)))
+print(sum(tot))
