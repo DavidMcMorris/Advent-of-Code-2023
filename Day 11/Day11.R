@@ -11,17 +11,17 @@ dims <- dim(space)
 exp_rows <- which(rowSums(space == ".") == ncol(space))
 exp_cols <- which(colSums(space == ".") == nrow(space))
 
-total_distance <- 0
+total_dist <- 0
 for (i in seq_len(num_gal - 1)) {
   current_gal <- arrayInd(gal_inds[i], dims)
   for (j in (i + 1):num_gal) {
     next_gal <- arrayInd(gal_inds[j], dims)
-    extra_rows <- sum(current_gal[1] < exp_rows & exp_rows < next_gal[1]) +
+    ext_rows <- sum(current_gal[1] < exp_rows & exp_rows < next_gal[1]) +
       sum(current_gal[1] > exp_rows & exp_rows > next_gal[1])
-    extra_cols <- sum(current_gal[2] < exp_cols & exp_cols < next_gal[2]) +
+    ext_cols <- sum(current_gal[2] < exp_cols & exp_cols < next_gal[2]) +
       sum(current_gal[2] > exp_cols & exp_cols > next_gal[2])
-    distance <- extra_rows + extra_cols + sum(abs(next_gal - current_gal))
-    total_distance <- total_distance + distance
+    dist <- (1e6 - 1) * (ext_rows + ext_cols) + sum(abs(next_gal - current_gal))
+    total_dist <- total_dist + dist
   }
 }
-print(total_distance)
+print(total_dist)
