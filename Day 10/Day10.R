@@ -1,10 +1,10 @@
-input <- "sample.txt"
+input <- "input.txt"
 pipes <- readLines(input)
 pipes <- lapply(pipes, strsplit, split = "")
 pipes <- matrix(unlist(pipes), nrow = length(pipes), byrow = TRUE)
 
 s <- which(pipes == "S")
-pipes[s] <- "7"
+pipes[s] <- "|"
 
 adjacent <- function(char, current_ai) {
   if (char == "|") {
