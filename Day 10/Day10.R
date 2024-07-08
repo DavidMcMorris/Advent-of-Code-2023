@@ -67,7 +67,7 @@ inside <- function(x, y) {
     if (y[i] >= Inf) {
       sums[i] <- NaN
     } else {
-      a <- sum(x[which(y[1:i] < Inf)] == "|") 
+      a <- sum(x[which(y[1:i] < Inf)] == "|")
       b <- sum(x[which(y[1:i] < Inf)] == "7")
       c <- sum(x[which(y[1:i] < Inf)] == "F")
       d <- sum(x[which(y[1:i] < Inf)] == "L")
