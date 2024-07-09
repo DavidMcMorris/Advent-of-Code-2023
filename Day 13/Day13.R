@@ -30,11 +30,14 @@ col_check <- function(pattern) {
 
 lin_find <- function(pattern) {
   val <- col_check(pattern)
-  if (is.null(val)) {
-    val <- 100 * col_check(t(pattern))
+  if (length(val) == 0) {
+    pattern <- t(pattern)
+    val <- 100 * col_check(pattern)
+    if (length(val) == 0) {
+      val <- 100 * (ncol(pattern) - col_check(pattern[ ,ncol(pattern):1]))
+    }
   }
   return(val)
 }
 
-answer <- sum(unlist(lapply(valley_ls, lin_find)))
-print(answer)
+answer <- lapply(valley_ls, lin_find)
