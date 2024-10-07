@@ -1,7 +1,9 @@
-input <- "sample.txt"
+input <- "input.txt"
 mirror <-  as.matrix(read.table(input, sep = ""))
 mirror <- strsplit(mirror, "")
 mirror <- matrix(unlist(mirror), ncol = length(mirror), byrow = TRUE)
+mirror_dim <- dim(mirror)
+
 
 tilt <- function(mat) {
   mat_dim <- dim(mat)
@@ -32,9 +34,9 @@ spin <- function(mat) {
   mat <- mat[nrow(mat):1, ]
   mat <- tilt(mat)
   mat <- mat[nrow(mat):1, ]
-  mat <- t(mat[,ncol(mat):1])
+  mat <- t(mat[, ncol(mat):1])
   mat <- tilt(mat)
-  mat <- t(mat[nrow(mat):1,]) 
+  mat <- t(mat[nrow(mat):1, ])
   return(mat)
 }
 
@@ -43,10 +45,8 @@ spin <- function(mat) {
 # print(ans)
 
 k <- 0
-for(i in 1:1000000000) {
+for(i in 1:100) {
   mirror <- spin(mirror)
-  k <- k + 1
-  print(k)
 }
 
 ans <- sum(rowSums(mirror == "O") * rev(seq(1:mirror_dim[1])))
