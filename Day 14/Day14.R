@@ -44,7 +44,6 @@ spin <- function(mat) {
 # ans <- sum(rowSums(mirror == "O") * rev(seq(1:mirror_dim[1])))
 # print(ans)
 
-k <- 0
 for(i in 1:100) {
   mirror <- spin(mirror)
 }
